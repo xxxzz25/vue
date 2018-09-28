@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="count">
+        <h1>--1--<br>{{count}}</h1>
+        <button v-on:click="add">+1</button>
+    </div>
+    <script>
+        new Vue({
+            el: '#count',
+            data:{
+                count:0,
+            },
+            methods:{
+                add(){
+                    this.count += 1;
+                },
+            },
+        });
+    </script>
+
+
+    <div id="app">
+        <h1>--2--<br></h1>
+        <my-button @my-click="clicked"></my-button>
+    </div>
+    <script>
+        Vue.component('my-button', {
+            template: '<button @click="gogo">button</button>',
+            methods: {
+                gogo(){
+                    this.$emit('my-click', 1,2,3,4);
+                },
+            },
+        });
+
+        new Vue({
+            el: '#app',
+            methods:{
+                clicked(a,b,c,d){
+                    alert(`${a},${b},${c},${d}`);
+                },
+            },
+        });
+    </script>
+
+
+    <div id="app2">
+        <h1>--3--<br></h1>
+        <my-counter @count-emit="gogo"></my-counter>
+        <!-- 給組件綁定原生事件要加native -->
+        <h1>{{count}}</h1>
+    </div>
+    <script>
+        Vue.component('my-counter', {
+            template: `
+                <div>
+                    <h1>{{count}}</h1>
+                    <button @click="count+=1">+1</button>
+                    <button @click="emit">emit</button>
+                </div>      
+            `,
+            data(){
+                return{
+                    count: 0,
+                };
+            },
+            methods: {
+                emit(){
+                    this.$emit('count-emit', this.count);
+                },
+            },
+        });
+
+        new Vue({
+            el: '#app2',
+            data: {
+                count: 0,
+            },
+            methods:{
+                gogo(count){
+                    this.count = count;
+                },
+            },
+        });
+    </script>
+
+
+    <div id="app3">
+        <h1>--4--<br></h1>
+        <my-counter :outer-count="outerCount" @update="gogo"></my-counter>
+        <h3>{{outerCount}}</h3>
+    </div>
+    <script>
+        Vue.component('my-counter', {
+            props: ['outerCount'],
+            data(){
+                return {
+                    innerCount: this.outerCount,
+                };
+            },
+            template: `
+                <div>
+                    <h1>{{innerCount}}</h1>
+                    <button @click="innerCount+=1">+1</button>
+                    <button @click="sync">sync</button>
+                </div>      
+            `,
+            methods: {
+                sync(){
+                    this.$emit('update', this.innerCount);
+                },
+            },
+        });
+
+        new Vue({
+            el: '#app3',
+            data: {
+                outerCount: 10,
+            },
+            methods:{
+                gogo(count){
+                    this.outerCount = count;
+                },
+            },
+        });
+    </script>
+
+    <!-- asyc修飾符 -->
+    <div id="app4">
+        <h1>--5--<br></h1>
+        <my-counter :outer-count.sync="outerCount"></my-counter>
+        <!-- <my-counter :outer-count="outerCount" @update:outer-count="val => outerCount = val"></my-counter> -->
+        <h3>{{outerCount}}</h3>
+    </div>
+    <script>
+        Vue.component('my-counter', {
+            props: ['outerCount'],
+            data(){
+                return {
+                    innerCount: this.outerCount,
+                };
+            },
+            template: `
+                <div>
+                    <h1>{{innerCount}}</h1>
+                    <button @click="innerCount+=1">+1</button>
+                    <button @click="sync">sync</button>
+                </div>      
+            `,
+            methods: {
+                sync(){
+                    this.$emit('update:outerCount', this.innerCount*2);
+                },
+            },
+        });
+
+        new Vue({
+            el: '#app4',
+            data: {
+                outerCount: 10,
+            },
+        });
+    </script>
+
+    <!-- 使用v-model -->
+    <div id="app5">
+        <h1>--6--<br></h1>
+        <my-counter v-model="outerCount"></my-counter>
+        <my-counter :count="outerCount" @update:count="val => outerCount = val"></my-counter>
+        <h3>{{outerCount}}</h3>
+    </div>
+    <script>
+        Vue.component('my-counter', {
+            model:{
+                prop: 'count',
+                event: 'update:count',
+            },
+            props: ['count'],
+            data(){
+                return {
+                    innerCount: this.count,
+                };
+            },
+            template: `
+                <div>
+                    <h1>{{innerCount}}</h1>
+                    <button @click="innerCount+=1">+1</button>
+                    <button @click="sync">sync</button>
+                </div>      
+            `,
+            methods: {
+                sync(){
+                    this.$emit('update:count', this.innerCount*5);
+                },
+            },
+        });
+
+        new Vue({
+            el: '#app5',
+            data: {
+                outerCount: 10,
+            },
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <input type="checkbox" id="chk" v-model="agree">
+        <label for="chk">agree</label>
+        <h1>{{agree}}</h1>
+        <button @click="submit">submit</button>
+    </div>
+    <script>
+        new Vue({
+            el: '#app',
+            data:{
+                agree: false,
+            },
+            methods:{
+                submit(){
+                    if(this.agree !== true){
+                        alert("please agree");
+                        return;
+                    }
+                },
+            },
+        });
+    </script>
+
+
+
+    <div id="app2">
+        <input type="checkbox" id="chk1" value="moring" v-model="times">
+        <label for="chk1">moring</label>
+        <input type="checkbox" id="chk2" value="afternoon" v-model="times">
+        <label for="chk2">afternoon</label>
+        <input type="checkbox" id="chk3" value="eveing" v-model="times">
+        <label for="chk3">evening</label>
+
+        <h1>{{times}}</h1>
+    </div>
+    <script>
+        new Vue({
+            el: '#app2',
+            data:{
+                times:[],
+            },
+        });
+    </script>
+</body>
+</html>

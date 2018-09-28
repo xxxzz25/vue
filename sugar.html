@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+    <title>Document</title>
+    <style>
+        .box{
+            min-width: 80px;
+            min-height: 80px;
+            padding: 40px;
+            border: 2px solid #f00;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="box" @click="msg='C'">
+            <div class="box" @click="msg='B'">
+                <div class="box" @click="setA"></div>
+            </div>
+        </div>
+        <h2>{{msg}}</h2>
+    </div>
+    <script>
+        new Vue({
+            el: '#app',
+            data:{
+                msg: '',
+            },
+            methods:{
+                setA(evt){
+                    evt,stopPropagation();
+                    this.msg='A';
+                },
+            },
+        });
+    </script>
+
+
+
+    <div id="app2">
+        <div class="box" @click="msg='C'">
+            <div class="box" @click.stop="msg='B'">
+                <div class="box" @click.stop="msg='A'"></div>
+            </div>
+        </div>
+        <h2>{{msg}}</h2>
+    </div>
+    <script>
+        new Vue({
+            el: '#app2',
+            data:{
+                msg: '',
+            },
+        });
+    </script>
+
+
+
+    <div id="app3">
+        <h1>{{count}}</h1>
+        <button @click.once="count+=1">+1</button>
+    </div>
+    <script>
+        new Vue({
+            el: '#app3',
+            data:{
+                count: 0,
+            },
+        });
+    </script>
+
+
+
+    <div id="app4">
+        <input type="text" v-model.lazy="msg">
+        <h1>{{msg}}</h1>
+    </div>
+    <script>
+        new Vue({
+            el: '#app4',
+            data:{
+                msg: '',
+            }
+        });
+    </script>
+
+
+
+    <div id="app5">
+        <input type="text" v-model.number="num">
+        <h1>{{num+1}}</h1>
+    </div>
+    <script>
+        new Vue({
+            el: '#app5',
+            data:{
+                num: 0,
+            },
+        });
+    </script>
+
+
+
+    <div id="app6">
+        <input type="text" v-model.trim="text">
+        <h1>[{{text}}]</h1>
+    </div>
+    <script>
+        new Vue({
+            el: '#app6',
+            data:{
+                text: '',
+            },
+        });
+    </script>
+</body>
+</html>

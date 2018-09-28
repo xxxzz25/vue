@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <select v-model="year">
+            <option disabled value="">select year</option>
+            <option value="15">2015</option>
+            <option value="16">2016</option>
+            <option value="17">2017</option>
+        </select>
+        <h1>{{year}}</h1>
+    </div>
+    <script>
+        new Vue({
+            el: '#app',
+            data:{
+                year: '',
+            },
+        });
+    </script>
+
+
+
+    <div id="app2">
+        <select v-model="year" multiple>
+            <option value="15">2015</option>
+            <option value="16">2016</option>
+            <option value="17">2017</option>
+        </select>
+        <h1>{{year}}</h1>
+    </div>
+    <script>
+        new Vue({
+            el: '#app2',
+            data:{
+                year: [],
+            },
+        });
+    </script>
+
+
+
+    <div id="app3">
+        <select v-model="selected">
+            <option v-for="item in 12" :value="item">{{item}}</option>
+        </select>
+        <h1>{{selected}}</h1>
+    </div>
+    <script>
+        new Vue({
+            el: '#app3',
+            data:{
+                selected: 1,
+            },
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app" class="container">
+        <form @submit.prevent="submit">
+            <div class="form-group row">
+                <label class="col-1 col-form-label">標題</label>
+                <div class="col">
+                    <input class="form-control" type="text" v-model="title" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-1 col-form-label">URL</label>
+                <div class="col">
+                    <input class="form-control" type="text" v-model="url" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-1 col-form-label">講師</label>
+                <div class="col">
+                    <select class="form-control" v-model="teacher">
+                        <option v-for="teacher in teachers">{{teacher}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-1 col-form-label">完成</label>
+                <div class="col">
+                    <label class="switch switch-3d switch-primary">
+                        <input type="checkbox" class="switch-input" v-model="completed" />
+                        <span class="switch-label"></span>
+                        <span class="switch-handle"></span>
+                    </label>
+                </div>
+            </div>
+    
+    
+            <label class="custom-file">
+                <label>圖片</label>
+                <input type="file" class="custom-file-input" accept="image/*" @change="fileSelected">
+                <span class="custom-file-control"></span>
+            </label>
+    
+            <img v-if="image" :src="image" width="200" />
+            <br/>
+            <br/>
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </form>
+        <hr/>
+        <div class="list-group">
+            <div class="list-group-item" v-for="lesson in lessons">
+                <img :src="lesson.image" width="100" />
+                <span>{{lesson.id}}</span>
+                <a :href="lesson.url">
+                    <span>{{lesson.title}}</span>
+                </a>
+                <span>{{lesson.teacher}}</span>
+                <span>{{lesson.completed==true?'完成':'未完成'}}</span>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        const API = 'https://lessons-backend-scars377.c9users.io';
+
+        new Vue({
+            el: '#app',
+            data: {
+                title: '',
+                url: '',
+                teachers: ['scars', 'eason', 'jack', 'claire'],
+                teacher: '',
+                completed: false,
+                image: '',
+                lessons: [],
+            },
+            methods: {
+                fileSelected(evt) {
+                    const file = evt.target.files.item(0);
+                    const reader = new FileReader();
+                    reader.addEventListener('load', this.imageLoaded);
+                    reader.readAsDataURL(file);
+                },
+                imageLoaded(evt) {
+                    this.image = evt.target.result;
+                },
+                submit() {
+                    $.post(API, {
+                        title: this.title,
+                        url: this.url,
+                        teacher: this.teacher,
+                        completed: this.completed,
+                        image: this.image,
+                    }).then(() => {
+                        this.title = '';
+                        this.url = '';
+                        this.teacher = '';
+                        this.completed = false;
+                        this.image = '';
+                        this.loadLessons();
+                    })
+                },
+                loadLessons() {
+                    $.get(API).then(lessons => this.lessons = lessons);
+                }
+            },
+            mounted() {
+                this.loadLessons();
+            },
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <input type="radio" id="r1" value="1" v-model="gender">
+        <label for="r1">male</label>
+        <input type="radio" id="r2" value="2" v-model="gender">
+        <label for="r2">female</label>
+        <input type="radio" id="r3" value="3" v-model="gender">
+        <label for="r3">others</label>
+        <h1>{{gender}}</h1>
+    </div>
+    <script>
+        new Vue({
+            el: '#app',
+            data:{
+                gender: '1',
+            },
+        });
+    </script>
+</body>
+</html>

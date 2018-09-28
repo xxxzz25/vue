@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <input type="file" @change="file">
+        <img v-if="image" :src="image" width="200">
+        <button @click="upload">upload</button>
+    </div>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                image: '',
+            },
+            methods:{
+                file(e){
+                    const f = e.target.files.item(0);
+                    // console.log(f);
+                    const reader = new FileReader;
+                    reader.addEventListener('load',this.imageLoaded);
+                    reader.readAsDataURL(f);
+                },
+                imageLoaded(e){
+                    this.image = e.target.result;
+                },
+                upload(){
+                    const form = new FormData();
+                    form.append(this.file,this.file.name)
+
+                    axios.post('./upload',form);
+                }
+            },
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <div>
+            <button @click="component='login-form'">Login Form</button>
+            <button @click="component='user-check'">User Check</button>
+        </div>
+        <hr/>
+        <keep-alive>
+            <component :is="component"></component>
+        </keep-alive>
+    </div>
+    <script>
+        const API = 'https://login-backend-scars377.c9users.io';
+
+        Vue.component('user-check', {
+            data() {
+                return {
+                    username: '',
+                    exists: false,
+                };
+            },
+            methods: {
+                submit() {
+                    axios.get(`${API}/exists/${this.username}`)
+                        .then(response => {
+                            this.exists = response.data.exists;
+                        });
+                },
+            },
+            watch: {
+                username() {
+                    this.submitDebounced();
+                },
+            },
+            created() {
+                this.submitDebounced = _.debounce(this.submit, 500);
+            },
+            template: `
+                <div>
+                <label>Username</label>
+                <input type="text" v-model="username"/>
+                <br/>
+                <span>{{exists}}</span>
+                </div>
+            `,
+        }),
+
+            Vue.component('login-form', {
+                data() {
+                    return {
+                        username: '',
+                        password: '',
+                        loggedUser: null,
+                        error: '',
+                        loading: false,
+                    }
+                },
+                methods: {
+                    submit() {
+                        this.loading = true;
+                        axios.post(`${API}/login`, {
+                            username: this.username,
+                            password: this.password,
+                        })
+                            .then(response => {
+                                this.loading = false;
+                                if (response.data.success) {
+                                    this.loggedUser = response.data.name;
+                                } else {
+                                    this.error = 'Incorrect username/password';
+                                }
+                            });
+                    },
+                },
+                watch: {
+                    username() {
+                        this.error = '';
+                    },
+                    password() {
+                        this.error = '';
+                    },
+                },
+                template: `
+                    <div>
+                    <h1 v-if="loggedUser">Welcome! {{loggedUser}}</h1>
+                    <form v-else @submit.prevent="submit">
+                        <label>Username</label>
+                        <input type="text" v-model="username" :disabled="loading"/>
+                        <br/>
+                        <label>Password</label>
+                        <input type="password" v-model="password" :disabled="loading"/>
+                        <br/>
+                        <button type="submit" :disabled="loading">Submit</button>
+                        <br/>
+                        <span v-if="error">{{error}}</span>
+                    </form>
+                    </div>
+                `,
+            });
+
+        new Vue({
+            el: '#app',
+            data: {
+                component: 'login-form',
+            },
+        });
+    </script>
+</body>
+</html>

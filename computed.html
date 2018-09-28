@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app1">
+        <input type="number" v-model="a">
+        +
+        <input type="number" v-model="b">
+        =
+        <span>{{c}}</span>
+        <br>
+        {{a}} + {{b}} = {{c}}
+    </div>
+    <script>
+        new Vue({
+            el: '#app1',
+            data:{
+                a:0,
+                b:0,
+            },
+            computed:{
+                c(){
+                    return parseInt(this.a,10) + parseInt(this.b,10);
+                }
+            }
+        });
+    </script>
+    <div id="app2">
+        <input type="number" v-model="a">
+        +
+        <input type="number" v-model="b">
+        =
+        <input type="number" v-model="c">
+        <br>
+        {{a}} + {{b}} = {{c}}
+    </div>
+    <script>
+        new Vue({
+            el: '#app2',
+            data:{
+                a:0,
+                b:0,
+            },
+            computed:{
+                c:{
+                    get(){
+                        return parseInt(this.a, 10) + parseInt(this.b, 10);
+                    },
+                    set(val){
+                        this.b = parseInt(val, 10) - parseInt(this.a, 10);
+                    },
+                },
+            },
+        });
+    </script>
+</body>
+</html>

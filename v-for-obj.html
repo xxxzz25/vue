@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <div v-for="(val,key) in me">{{key}} - {{val}}</div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <script>
+        new Vue({
+            el: '#app',
+            data:{
+                me:{
+                    name: 'Chris',
+                    id: 'ccc',
+                    age: 24,
+                    password:'111111',
+                    13:'asdasd',
+                    8:'afegw',
+                    4:'fegeg',
+                },
+            },
+        });
+    </script>
+
+
+    <!-- 想照順序排列的話使用陣列包物件 -->
+    <div id="app2">
+        <div v-for="item in me">{{item.prop}} - {{item.val}}</div>
+    </div>
+    <script>
+        new Vue({
+            el: '#app2',
+            data:{
+                me:[
+                    { prop:'name', val:'Chris'},
+                    { prop:'id', val:'ccc'},
+                    { prop: 13, val:'asdasd'},
+                    { prop: 8, val:'afegw'},
+                ],
+            },
+        });
+    </script>
+</body>
+</html>

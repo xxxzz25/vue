@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <my-com></my-com>
+    </div>
+
+    <script>
+        //global
+        Vue.component('my-com',{
+            template: '<div>component</div>',
+        });
+
+        new Vue({
+            el: '#app',
+            //local
+            components: {
+                'my-com':{
+                    template: '<div>component</div>',
+                },
+            },
+        });
+    </script>
+
+
+
+    <div id="app2">
+        <button @click="content='lessons'">lessons</button>
+        <button @click="content='apply'">apply</button>
+        <br>
+        <keep-alive>
+            <component :is="content"></component>
+        </keep-alive>
+    </div>
+
+    <script>
+        
+        // 'my-first-component'  kebab-case
+        // 'myFirstComponent'  camelCase
+        // 'MyFirstComponent'  PascalCase
+
+        Vue.component('apply',{
+            template: `
+            <form>
+                <textarea></textarea>
+                <br>
+                <button>submit</button>
+            </form>
+            `,
+        });
+        Vue.component('lessons',{
+            template: `
+            <ul>
+                <li>vue</li>
+                <li>react</li>
+                <li>angular</li>
+            </ul>
+            `,
+        });
+
+        new Vue({
+            el: '#app2',
+            data:{
+                content: 'lessons',
+            },
+        });
+    </script>
+</body>
+</html>

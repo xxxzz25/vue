@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <input v-model="input" @keydown="keydown">
+        <ul>
+            <li v-for="item in list">{{item}}</li>
+        </ul>
+    </div>
+    <script>
+        new Vue({
+            el: '#app',
+            data:{
+                input : '',
+                list : [],
+            },
+            methods:{
+                keydown(evt){
+                    console.log(evt.keyCode);
+                    if(evt.keyCode===13){
+                        this.list.push(this.input);
+                        this.input = '';
+                    }
+                },
+            },
+        })
+    </script>
+
+
+
+    <div id="app2">
+        <input v-model="input" @keydown.enter="keydown">
+        <ul>
+            <li v-for="item in list">{{item}}</li>
+        </ul>
+    </div>
+    <script>
+        new Vue({
+            el: '#app2',
+            data:{
+                input : '',
+                list : [],
+            },
+            methods:{
+                keydown(){
+                    this.list.push(this.input);
+                    this.input = '';
+                },
+            },
+        })
+    </script>
+
+
+
+    <div id="app3">
+        <input v-model="input" @keydown.a.prevent="keydown">
+        <ul>
+            <li v-for="item in list">{{item}}</li>
+        </ul>
+    </div>
+    <script>
+        new Vue({
+            el: '#app3',
+            data:{
+                input : '',
+                list : [],
+            },
+            methods:{
+                keydown(){
+                    this.list.push(this.input);
+                    this.input = '';
+                },
+            },
+        })
+    </script>
+</body>
+</html>

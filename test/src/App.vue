@@ -30,12 +30,38 @@ export default {
   padding: 0;
   box-sizing: border-box;
   font-size: 14px;
+  /* outline: 1px solid #f00; */
 }
 * a{
   text-decoration: none;
 }
 * ul,li{
   list-style: none;
+}
+@media (max-width: 576px) {
+  #app{
+    width: 100%;
+  }
+}
+@media (min-width: 768px) {
+  *{
+    font-size: 12px;
+  }
+}
+@media (min-width: 768px) {
+  *{
+    font-size: 12px;
+  }
+}
+@media (min-width: 992px) {
+  *{
+    font-size: 14px;
+  }
+}
+@media (min-width: 1200px) {
+  *{
+    font-size: 14px;
+  }
 }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;

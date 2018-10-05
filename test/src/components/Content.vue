@@ -1,8 +1,8 @@
 <template>
   <div>
     <h3>最新開團</h3>
-    <div class="wrapper" :style="{ height: height + 'px' }">
-      <div v-for="item in items" class="item">
+    <div class="wrapper">
+      <div v-for="item in items.slice(0, number)" class="item">
         <a href="#" class="cover">
           <img :src="item.cover" alt="">
         </a>
@@ -28,7 +28,7 @@
         </div>
       </div>
     </div>
-    <div class="moreInfo" @click="plusHeight()">看更多 <i class="fas fa-angle-down"></i></div>
+    <div class="moreInfo" @click="plus()" v-show="number < 15">看更多 <i class="fas fa-angle-down"></i></div>
   </div>
 </template>
 
@@ -39,11 +39,14 @@ export default {
     return{
       items: [],
       height: 605,
+      number: 6
     }
   },
   methods: {
-    plusHeight(){
-      this.height += 605;
+    plus(){
+      if(this.number<15){
+        this.number += 3;
+      }
     }
   },
   mounted() {
@@ -64,6 +67,8 @@ export default {
     width: 1110px;
     margin: 0 auto;
     margin-top: 30px;
+    font-weight: normal;
+    font-size: 18px;
   }
   .wrapper{
     width: 1110px;
@@ -75,16 +80,23 @@ export default {
     overflow: hidden;
     .item{
       width: 350px;
-      height: 545px;
       margin-top: 60px;
       border-bottom: 2px solid #efefef;
       .cover{
         display: block;
+        height: 232px;
+        position: relative;
         img{
+          position: absolute;
           width: 100%;
-          height: 232px;
-          border-radius: 10px;
+          height: 100%;
+          top: 0;
+          bottom: 0;
+          right: 0;
+          left: 0;
+          object-fit: cover;
           object-position: center center;
+          border-radius: 10px;
         }
       }
       .center{
@@ -134,6 +146,7 @@ export default {
             margin-top: 15px;
             color: #ff700c;
             text-align: right;
+            font-size: 16px;
             span{
               color: #00c2a9;
             }
@@ -150,10 +163,10 @@ export default {
           }
         }
         .product_text{
-          margin-left: 16px;
+          margin-left: 20px;
           font-size: 14px;
+          width: 178px;
           p{
-            width: 178px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: wrap;
@@ -180,6 +193,151 @@ export default {
       background: #808285;
       color: #fff;
       cursor: pointer;
+    }
+  }
+
+  @media (max-width: 576px) {
+    h3{
+      margin-top: 0;
+      max-width: 345px;
+    }
+    .wrapper {
+      max-width: 345px;
+      .item{
+        width: 100%;
+        margin-top: 50px;
+        .cover{
+          height: 226px;
+        }
+        .center{
+          .p_text{
+            max-width: 230px;
+          }
+        }
+        .product{
+          margin-bottom: 30px;
+          .product_img{
+            max-width: 137px;
+          }
+          .product_text{
+            max-width: 190px;
+            p{
+              font-size: 14px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media (min-width: 576px) {
+    h3{
+      max-width: 510px;
+    }
+    .wrapper {
+      max-width: 510px;
+      .item{
+        width: 100%;
+        margin-top: 30px;
+        .cover{
+          height: 335px;
+        }
+        .center{
+          .p_text{
+            width: 305px;
+          }
+        }
+        .product{
+          margin-bottom: 30px;
+          .product_img{
+            width: 205px;
+          }
+          .product_text{
+            width: 272px;
+            p{
+              font-size: 16px;
+            }
+          }
+        }
+      }
+    }
+  }
+  @media (min-width: 768px) {
+    h3{
+      max-width: 720px;
+    }
+    .wrapper {
+      max-width: 720px;
+      .item{
+        width: 47%;
+        margin-top: 30px;
+        .cover{
+          height: 216px;
+        }
+        .center{
+          .p_text{
+            width: 228px;
+          }
+        }
+        .product{
+          margin-bottom: 30px;
+          .product_img{
+            width: 130px;
+          }
+        }
+      }
+    }
+  }
+  @media (min-width: 992px) {
+    h3{
+      max-width: 960px;
+    }
+    .wrapper {
+      max-width: 960px;
+      .item{
+        width: 47%;
+        margin-top: 30px;
+        .cover{
+          height: 296px;
+        }
+        .center{
+          .p_text{
+            width: 305px;
+          }
+        }
+        .product{
+          margin-bottom: 30px;
+          .product_img{
+            width: 180px;
+          }
+        }
+      }
+    }
+  }
+  @media (min-width: 1200px) {
+    h3{
+      max-width: 1110px;
+      margin-top: 30px;
+    }
+    .wrapper {
+      max-width: 1140px;
+      .item{
+        width: 350px;
+        .cover{
+          height: 232px;
+        }
+        .center{
+          .p_text{
+            width: 234px;
+          }
+        }
+        .product{
+          margin-bottom: 60px;
+          .product_img{
+            width: 140px;
+          }
+        }
+      }
     }
   }
 </style>

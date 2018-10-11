@@ -37,6 +37,26 @@ export default{
     ...mapState(['todos']),
     ...mapGetters(['itemNotDone']),
 
+    /* 表單處理 1
+    ** 比較麻煩的寫法
+    ** text() {
+    **   return this.$store.state.text;
+    ** }
+    ** 簡潔的寫法
+    ** ...mapState(["text"])
+    */
+
+    /* 表單處理 2: v-model
+    ** text: {
+    **   get() {
+    **     return this.$store.state.text;
+    **   },
+    **   set(val) {
+    **     this.$store.commit("setText", val);
+    **   }
+    ** }
+    */
+
   },
 
   methods: {

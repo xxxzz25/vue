@@ -29,14 +29,14 @@
 
 	<!-- 動態綁定prop -->
 	<div id="app2">
-		<post :text="text"></post>
+		<post :text="fatherText"></post>
 		<!-- : 是動態綁定 -->
 	</div>
 	<script>
 		new Vue({
 			el: '#app2',
 			data: {
-				text: 'hello',
+				fatherText: 'hello im form father',
 			},
 			components: {
 				post: {
@@ -51,6 +51,7 @@
 	<!-- 動態綁定prop -->
 	<div id="app3">
 		<post v-for="post in posts" :text="post.text" :author="post.author"></post>
+		<hr>
 		<post v-for="post in posts" v-bind="post"></post>
 	</div>
 	<script>
